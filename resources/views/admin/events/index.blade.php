@@ -14,7 +14,7 @@
                     <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
                         <div class="card border-0 h-100 position-relative overflow-hidden">
                             <div class="position-relative">
-                                <img src="{{ asset($event->banner_url ?? 'storage/events/default.svg') }}"
+                                <img src="{{ asset($event->image_path ?? 'storage/events/default.svg') }}"
                                     class="card-img-top" alt="{{ $event->name }}">
                                 <div class="position-absolute top-0 start-0 w-100 h-100"
                                     style="background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);"></div>
