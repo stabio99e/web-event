@@ -285,13 +285,24 @@ class EventController extends Controller
             // Handle image upload
             if ($request->hasFile('image')) {
                 // Delete old image if exists
-                if ($event->image) {
-                    Storage::delete('public/events/' . $event->image);
+                if ($event->image_path) {
+                    $oldFile = public_path($event->image_path);
+                    if (file_exists($oldFile) && is_file($oldFile)) {
+                        unlink($oldFile);
+                    }
                 }
 
-                $imageName = time() . '.' . $request->image->extension();
-                $request->image->storeAs('public/events', $imageName);
-                $event->image = $imageName;
+                $image = $request->file('image');
+                $imageName = 'event_' . time() . '.' . $image->extension();
+                $storageFolder = public_path('storage/events');
+                
+                if (!file_exists($storageFolder)) {
+                    mkdir($storageFolder, 0755, true);
+                }
+                
+                $image->move($storageFolder, $imageName);
+                
+                $event->image_path = '/storage/events/' . $imageName;
                 $event->save();
             }
 
